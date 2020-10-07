@@ -8,6 +8,12 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Config;
+/** mail */
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewSignUp;
 
 class RegisterController extends Controller
 {
@@ -29,7 +35,22 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo(){
+        
+        if( Auth::user()->is_admin ){
+           return route('a_home');
+        }
+        elseif( Auth::user()->is_teacher ){
+            return route('t_home');
+        }
+        elseif( Auth::user()->is_student ){
+            return route('s_home');
+        }
+        else{
+            return route('login');
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -52,6 +73,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:13', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,10 +86,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        if( User::where('email', $data['email'])->count() > 0 ){
+            return view('auth.register')->with(['error' => 'Email already in use.']);
+        }
+        if( User::where('phone', $data['phone'])->count() > 0 ){
+            return view('auth.register')->with(['error' => 'phone already in use.']);
+        }
+        
+        $user_create = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
+            'is_admin' => false,
+            'is_teacher' => false,
+            'is_student' => true,
+            'is_active' => true,
             'password' => Hash::make($data['password']),
         ]);
+        // Mail::to($data['email'])->send(new NewSignUp($data));
+        return $user_create;
+    }
+    protected function trans_no()
+    {
+        $length = 24;
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $arr = str_split($randomString, 6);
+        $rtn = $arr[0].'-'.$arr[1].'-'.$arr[2].'-'.$arr[3];
+        return $rtn;
     }
 }

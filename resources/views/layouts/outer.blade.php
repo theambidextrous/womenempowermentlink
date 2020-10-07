@@ -54,10 +54,7 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li><a href="{{route('welcome')}}">Home</a></li>
-          <li><a href="{{route('welcome')}}">About</a></li>
-          <li><a href="{{route('welcome')}}">Blog</a></li>
-          <li><a href="{{route('welcome')}}">Contact Us</a></li>
-
+          <li><a href="{{route('welcome')}}">About eLearning</a></li>
           <li class="get-started_l"><a href="{{route('login')}}">Login</a></li>
           <li class="get-started"><a href="{{route('register')}}">Enroll Now</a></li>
         </ul>

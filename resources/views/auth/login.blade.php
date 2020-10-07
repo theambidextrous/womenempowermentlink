@@ -16,12 +16,19 @@
 
     <div class="row">
 
-      <div class="col-lg-4"></div>
+      <div class="col-lg-3"></div>
 
-      <div class="col-lg-4" style="background: #f7f2f2;padding: 21px;border-radius:8px;">
+      <div class="col-lg-6" style="background: #f7f2f2;padding: 21px;border-radius:8px;">
         <div class="section-title">
-        <h2>Login</h2>
+        <h2>Login to your Account</h2>
         </div>
+        <!-- messges -->
+        @if(Session::get('status') && Session::get('status') == 2000)
+        <div class="alert alert-success">{{Session::get('message')}}</div>
+        @endif
+        @if(Session::get('status') && Session::get('status') == 2001)
+        <div class="alert alert-danger">{{Session::get('message')}}</div>
+        @endif
         <form action="{{route('login')}}" method="POST" class="php-email-form">
             @csrf
           <div class="form-group">
@@ -60,7 +67,7 @@
         </form>
       </div>
      
-      <div class="col-lg-4"></div>
+      <div class="col-lg-3"></div>
     </div>
 
   </div>
