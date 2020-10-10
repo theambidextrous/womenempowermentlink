@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function (Request $request) {
+    return response(['status' => 499, 'message' => 'point of no return']);
+});
+Route::fallback(function () {
+    return response(['status'=> 499, 'message' => 'oops! Congrats! you\'ve reached point of no return']);
+});
+Route::prefix('/users')->group( function() {
+    Route::post('/login', 'Api\UserController@signin')->name('signin');
+    Route::post('/new', 'Api\UserController@signup')->name('signup');
+    Route::middleware('auth:api')->group( function(){
+        Route::post('/is/active', 'Api\UserController@is_active')->name('is_active');
+        Route::post('/info', 'Api\UserController@info')->name('info');
+    });
 });

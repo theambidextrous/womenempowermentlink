@@ -182,6 +182,38 @@ class LearnerController extends Controller
             'message' => "Assignment uploaded Successfully"
         ]);
     }
+    public function s_examhome($unitid)
+    {
+        return view('learner.s_examhome')->with([
+            'this_unit' => $this->this_unit($unitid),
+            'this_unit_exam' => $this->this_unit_exams($unitid),
+        ]);
+    }
+    public function s_examattempt($exam, $unitid)
+    {
+        return view('learner.s_examattempt')->with([
+            'this_unit' => $this->this_unit($unitid),
+            'this_exam' => $this->this_exam($exam),
+        ]);
+    }
+    protected function this_exam($id)
+    {
+        $c_ = Exam::find($id);
+        if(is_null($c_))
+        {
+            return [];
+        }
+        return $c_->toArray();
+    }
+    protected function this_unit_exams($unitid)
+    {
+        $c_ = Exam::where('unit', $unitid)->where('is_deleted', false)->where('is_active', true)->orderBy('id', 'desc')->get();
+        if(is_null($c_))
+        {
+            return [];
+        }
+        return $c_->toArray();
+    }
     protected function this_unit_assignments($unitid)
     {
         $c_ = Assignment::where('unit', $unitid)->where('is_deleted', false)->orderBy('id', 'desc')->get();

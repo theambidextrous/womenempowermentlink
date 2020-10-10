@@ -64,6 +64,15 @@
 <script type="text/javascript" src="{{ asset('inner/scripts/vfs_fonts.js') }}"></script>
 <script type="text/javascript" src="{{ asset('inner/scripts/buttons.html5.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('inner/scripts/buttons.print.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/jquery.countdown.min.js') }}"></script>
+<div id="getting-started"></div>
+<script type="text/javascript">
+  $("#examwatch").countdown("2021/01/01", function(event) {
+    $(this).text(
+      event.strftime('%H hr %M min %S')
+    );
+  });
+</script>
 <script>  
         $(document).ready(function() {
             $('.reportable').DataTable( {
@@ -72,6 +81,7 @@
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             } );
+            $('.reportable2').DataTable();
         } );
         $(document).ready(function(){
 

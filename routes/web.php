@@ -122,3 +122,6 @@ Route::get('/wel/learner/home/lessons/{unit}', 'LearnerController@s_lessonhome')
 //assign
 Route::get('/wel/learner/home/assign/{unit}', 'LearnerController@s_assignhome')->name('s_assignhome');
 Route::put('/wel/learner/home/assign/upload', 'LearnerController@s_assignsubmit')->name('s_assignsubmit');
+//exams
+Route::get('/wel/learner/home/examinables/{unit}', 'LearnerController@s_examhome')->name('s_examhome');
+Route::get('/wel/learner/home/exam/{exam}/unit/{unit}', 'LearnerController@s_examattempt')->name('s_examattempt');

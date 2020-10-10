@@ -211,6 +211,14 @@
                         </div>
                         <div class="col-md-12">
                             <div class="position-relative form-group">
+                                <label>Exam duration in Minutes</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="duration" id="duration" placeholder="30" min="30" max="180" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="position-relative form-group">
                                 <label>Total mark Count</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="maxscore" id="maxscore" placeholder="60" aria-describedby="inputGroupPrepend" required>
@@ -262,6 +270,14 @@
                         </div>
                         <div class="col-md-12">
                             <div class="position-relative form-group">
+                                <label>Quiz duration in Minutes</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="duration" id="duration" placeholder="30" min="30" max="180" aria-describedby="inputGroupPrepend" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="position-relative form-group">
                                 <label>Total mark Count</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="maxscore" id="maxscore" placeholder="10" aria-describedby="inputGroupPrepend" required>
@@ -299,6 +315,7 @@
                                     <input type="hidden" name="type" value="555555">
                                     <input type="hidden" name="unit" value="{{$this_unit['id']}}">
                                     <input type="hidden" name="maxscore" value="2" id="maxscore">
+                                    <input type="hidden" name="duration" value="10" id="duration">
                                     <input type="text" class="form-control" name="title" id="title" placeholder="course evaluation survey 1" aria-describedby="inputGroupPrepend" required>
                                 </div>
                             </div>

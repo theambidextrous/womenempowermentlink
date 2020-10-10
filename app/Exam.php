@@ -12,7 +12,7 @@ class Exam extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'uploadedby', 'course', 'unit', 'title', 'description', 'maxscore', 'is_deleted', 'is_active',
+        'type', 'uploadedby', 'course', 'unit', 'title', 'description', 'maxscore', 'is_deleted', 'is_active', 'duration',
     ];
 
     /**

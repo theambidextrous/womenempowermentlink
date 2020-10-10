@@ -312,6 +312,7 @@ class TutorController extends Controller
             'unit' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
+            'duration' => 'required|string',
             'maxscore' => 'required|string',
         ]);
         $id = $req->get('unit');
