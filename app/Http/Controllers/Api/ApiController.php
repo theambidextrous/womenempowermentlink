@@ -39,7 +39,7 @@ class ApiController extends Controller
     public function test_push()
     {
         try{
-            $notifiable_res = $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, Auth::user()->id . '-WELstudent');
+            $notifiable_res = $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, 'womensempowermentlink');
             return $notifiable_res;
             // return response([
             //     'status' => 200,
