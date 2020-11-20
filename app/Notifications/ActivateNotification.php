@@ -18,9 +18,11 @@ class ActivateNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $payload;
+
+    public function __construct($payload)
     {
-        //
+        $this->payload = $payload;
     }
     /** Exponent */
     public function via($notifiable)
@@ -30,16 +32,16 @@ class ActivateNotification extends Notification
 
     public function routeNotificationForExpoPushNotifications()
     {
-        return 'expo_token';//THIS IS THE EXPO PUSH TOKEN ATTRIBUTE IN YOUR $notifiable
+        return 'device_token';//THIS IS THE EXPO PUSH TOKEN ATTRIBUTE IN YOUR $notifiable
     }
     public function toExpoPush($notifiable)
     {        
         return ExpoMessage::create()
         ->badge(1)
         ->enableSound()
-        ->title($notifiable->title)
-        ->body($notifiable->message)
-        ->setChannelId($notifiable->channel)
+        ->title($this->payload->title)
+        ->body($this->payload->message)
+        ->setChannelId($this->payload->channel)
         ->ttl(60)
         ->priority('high');
     }
