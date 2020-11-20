@@ -218,7 +218,7 @@ class ApiController extends Controller
                 $content = $request->file('photo');
                 $content_name = time() . $content->getClientOriginalName();
                 // Storage::disk('public')->putFileAs('images', $content, $content_name);
-                $request->file('photo')->move('images', $content_name);
+                $request->file('photo')->move('inner/images', $content_name);
                 $input['profile'] = $content_name;
             }
             $user = User::find(Auth::user()->id)->update($input);
