@@ -42,7 +42,7 @@ class ActivateNotification extends Notification
         ->title($this->payload->title)
         ->body($this->payload->message)
         ->setChannelId($this->payload->channel)
-        ->ttl(60)
+        // ->ttl(60)
         ->priority('high');
     }
     /**
