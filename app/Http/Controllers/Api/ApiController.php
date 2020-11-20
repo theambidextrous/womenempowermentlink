@@ -23,6 +23,7 @@ use App\ExamProgress;
 use App\Forum;
 use App\ForumReply;
 use App\Pcode;
+use App\Message;
 use Validator;
 use Storage;
 use Config;
@@ -58,11 +59,12 @@ class ApiController extends Controller
             if(!is_null($user) && !is_null($user->device_token))
             {
                 $payload = [
-                    'expoToken' => $user->device_token,
-                    'message' => $msg,
+                    'expo_token' => $user->device_token,
                     'title' => 'Women Empowerment Link - WEL',
+                    'message' => $msg,
                     'channel' => $channel
                 ];
+                Message::create($payload);
                 $payload = json_decode(json_encode($payload));
                 return $user->notify(new ActivateNotification($payload));
             }
