@@ -196,12 +196,18 @@ class ApiController extends Controller
         if(!strlen(Auth::user()->device_token))
         {
             User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
+            return response([
+                'status' => 200,
+                'message' => "device token updated",
+                'payload' => $pushToken,
+            ], 200);
         }
         return response([
             'status' => 200,
-            'message' => "device token updated",
-            'payload' => $pushToken,
-        ], 200);
+            'message' => "device token exist",
+            'payload' => Auth::user()->device_token,
+        ], 403);
+        
     }
     public function update_p_pic(Request $request)
     {
