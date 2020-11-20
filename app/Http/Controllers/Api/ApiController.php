@@ -39,18 +39,37 @@ class ApiController extends Controller
     public function test_push($message)
     {
         try{
-            $notifiable_res = $this->push_notify($message, Auth::user()->id, 'womensempowermentlink');
-            return response([
-                'status' => 200,
-                'message' => "push test",
-            ], 200);
-        }catch( Exception $e )
-        {
+            $notifiable_res = null;
+            $user = Auth::user();
+            if(!is_null($user) && !is_null($user->device_token))
+            {
+                $payload = [
+                    'expo_token' => $user->device_token,
+                    'title' => 'Women Empowerment Link - WEL',
+                    'message' => $message,
+                    'channel' => 'womensempowermentlink'
+                ];
+                Message::create($payload);
+                $payload = json_decode(json_encode($payload));
+                $notifiable_res = $user->notify(new ActivateNotification($payload));
+                return response([
+                    'status' => 200,
+                    'message' => 'sent!',
+                    'payload' => $payload,
+                ], 200);
+            }else{
+                return response([
+                    'status' => 200,
+                    'message' => 'not sent!',
+                    'payload' => 'Device token not found!',
+                ], 200);
+            }
+        }catch( \Exception $e ){
             return response([
                 'status' => 211,
                 'message' => $e->getMessage(),
             ], 403);
-        }
+        }        
     }
     public function send_push_ntf()
     {
