@@ -41,6 +41,9 @@
                     <a href="{{route('t_home')}}"><i class="metismenu-icon pe-7s-home"></i>Home</a>
                 </li>
                 <li>
+                    <a href="{{route('t_forum')}}"><i class="metismenu-icon pe-7s-chat"></i>Forums</a>
+                </li>
+                <li>
                     <a href="{{route('t_profile')}}"><i class="metismenu-icon pe-7s-users"></i>Profile</a>
                 </li>
             </ul>

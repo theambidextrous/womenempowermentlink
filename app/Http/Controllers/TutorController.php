@@ -19,6 +19,8 @@ use App\LearnerAssignment;
 use App\Exam;
 use App\Question;
 use App\LearnerExam;
+use App\Forum;
+use App\ForumReply;
 use Validator;
 use Storage;
 use Config;
@@ -139,12 +141,20 @@ class TutorController extends Controller
         {
             return redirect()->route('t_lessonhome', $unitid)->with([
                 'status' => 201,
-                'message' => "upload a valid content file e.g. pdf, mp4, avi, mkv, 3gp"
+                'message' => "File field is required. Upload pdf or video not more than 20mb"
             ]);
         }
         $input = $req->all();
         $content = $req->file('content');
-        $content_name = $file_uuid . $content->getClientOriginalName();
+        $extension = $content->getClientOriginalExtension();
+        $content_name = $file_uuid . '.' . $extension;
+        if ( !$this->validLesson($extension) )
+        {
+            return redirect()->route('t_lessonhome', $unitid)->with([
+                'status' => 201,
+                'message' => "upload a valid content file e.g. pdf, mp4, avi, mkv, 3gp"
+            ]);
+        }
         Storage::disk('local')->putFileAs('cls/trt/content', $content, $content_name);
         $input['content'] = $content_name;
         $input['live_link'] = 'not_applicable';
@@ -476,7 +486,94 @@ class TutorController extends Controller
                 'message' => "Grades for this unit have been updated successfully",
             ]);
         }
-
+    }
+    /*** FORUM */
+    public function t_forum()
+    {
+        return view('tutor.t_forum')->with([
+            'payload' => $this->all_forum(),
+            'units' => $this->all_units(),
+        ]);
+    }
+    public function t_add_forum(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'unit' => 'required|string|not_in:nn',
+            'forum' => 'required|string',
+        ]);
+        if( $validator->fails() ){
+            return redirect()->route('t_forum')->with([
+                'status' => 201,
+                'message' => "Error creating forum Post. missing required fields"
+            ]);
+        }
+        $input = $req->all();
+        if( $req->hasFile('ffile') )
+        {
+            $file_uuid = (string) Str::uuid();
+            $content = $req->file('ffile');
+            $content_name = $file_uuid . $content->getClientOriginalName();
+            $explode_image = explode('.', $content_name);
+            $extension = end($explode_image);
+            if ( ! in_array($extension, $this->allowed_img()) )
+            {
+                return redirect()->route('t_forum')->with([
+                    'status' => 201,
+                    'message' => "Error creating forum Post. Invalid file upload. Use a valid image or photo"
+                ]);
+            }
+            Storage::disk('local')->putFileAs('cls/trt/content', $content, $content_name);
+            $input['ffile'] = $content_name;
+        }
+        $input['uploadedby'] = Auth::user()->id;
+        $input['course'] = Unit::find($input['unit'])->course;
+        Forum::create($input);
+        return redirect()->route('t_forum')->with([
+            'status' => 200,
+            'message' => "Forum Posted Successfully!"
+        ]);
+    }
+    public function t_add_freply(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'reply' => 'required|string',
+            'forum' => 'required|string',
+        ]);
+        if( $validator->fails() ){
+            return redirect()->route('t_forum')->with([
+                'status' => 201,
+                'message' => "Error creating forum reply. missing required fields"
+            ]);
+        }
+        $input = $req->all();
+        $input['uploadedby'] = Auth::user()->id;
+        ForumReply::create($input);
+        return redirect()->route('t_forum')->with([
+            'status' => 200,
+            'message' => "Replied Successfully!"
+        ]);
+    }
+    protected function all_forum()
+    {
+        $c_ = Forum::where('is_deleted', false)->orderBy('created_at', 'desc')->get();
+        if(is_null($c_))
+        {
+            return [];
+        }
+        return $c_->toArray();
+    }
+    protected function all_units()
+    {
+        $c_ = Unit::where('is_deleted', false)->get();
+        if(is_null($c_))
+        {
+            return [];
+        }
+        return $c_->toArray();
+    }
+    protected function allowed_img()
+    {
+        return ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'svg','tif', 'tiff', 'wbmp'];
     }
     protected function exam_type_is($id)
     {
@@ -598,5 +695,13 @@ class TutorController extends Controller
             return [];
         }
         return $rtn->toArray();
+    }
+    protected function validLesson($ext)
+    {
+        if( in_array($ext, ['pdf', 'mp4', 'avi', 'mkv', '3gp', 'mov']) )
+        {
+            return true;
+        }
+        return false;
     }
 }

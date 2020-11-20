@@ -1,5 +1,30 @@
-@extends('layouts.inner')
+@extends('layouts.exam_inner')
 
+@section('topcss')
+@php(date_default_timezone_set("Africa/Nairobi"))
+<script>
+window.onbeforeunload = function (e) {
+e = e || window.event;
+
+// For IE and Firefox prior to version 4
+if (e) {
+    e.returnValue = 'Sure?';
+}
+
+// For Safari
+return 'Sure?';
+};
+</script>
+<link href="{{ asset('inner/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('inner/jquery.toast.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('inner/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('inner/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <style>
+    ::placeholder {
+        color:#d0d0d0!important;
+    }
+    </style>
+@endsection
 
 @section('topnav')
     @include('commons/topnav')
@@ -185,6 +210,8 @@
                 </i> -->
             </div>
             <div><a href="#">Exam in progress:</a> {{$this_exam['title']}}</div>
+            @php($date = new DateTime())
+            @php($date->modify("+".$this_exam['duration']." minutes"))<br>
         </div>
     </div>
 </div>
@@ -199,19 +226,24 @@
                     <!-- exam window -->
                     <div id="quiz">
                         <div id="question">
-                            <h2>How many wheels are there on a tricycle?</h2>
-                            <input id="choices-0" type="radio" name="choices" value="choices-0">
-                            <label for="choices-0">Three</label>
-                            <input id="choices-1" type="radio" name="choices" value="choices-1">
-                            <label for="choices-1">One</label>
-                            <input id="choices-2" type="radio" name="choices" value="choices-2">
-                            <label for="choices-2">Two</label>
-                            <input id="choices-3" type="radio" name="choices" value="choices-3">
-                            <label for="choices-3">Four</label>
+                            <h2>{{Session::get('current_index')}}). {{ucwords(strtolower($first_question['title']))}} ({{$first_question['maxscore']}}marks)</h2>
+                            <input id="examid" type="hidden" name="examid" value="{{$this_exam['id']}}">
+                            <input id="questionid" type="hidden" name="question" value="{{$first_question['id']}}">
+                            <input id="scoreid" type="hidden" name="score" value="{{$first_question['maxscore']}}">
+                            @php( $options = json_decode($first_question['options'], true))
+                            @if(count($options))
+                            @php($_loop = 0 )
+                            @foreach($options as $opt )
+                            
+                            <input id="choices-{{$_loop}}" type="radio" name="choice" value="{{$opt['Id']}}">
+                            <label for="choices-{{$_loop}}">{{$opt['Id']}}). {{$opt['Option']}}</label>
+                            @php($_loop++)
+                            @endforeach
+                            @endif
                         </div>
-                        <button class="btn btn-warning" id="prev-question-button">Previous</button>
-                        <button class="btn btn-info" id="next-question-button">Next Question</button>
-                        <button class="btn btn-danger pull-right" id="submit-button">Finish Exam</button>
+                        <button class="btn btn-warning" id="prev-question-button" onclick="getPrev()">Previous</button>
+                        <button class="btn btn-info" id="next-question-button" onclick="getNext()">Next Question</button>
+                        <button onclick="finishExam()" class="btn btn-danger pull-right" id="submit-button">Finish Exam</button>
                         <div id="quiz-results" style="display: none;">
                             <p id="quiz-results-message"></p>
                             <p id="quiz-results-score"></p>
@@ -229,3 +261,160 @@
 @section('footer')
     @include('commons/footer')
 @endsection
+
+@section('bottomscript')
+<script type="text/javascript" src="{{ asset('inner/scripts/main.js') }} "></script>
+<script src="{{ asset('inner/scripts/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
+<script src="{{ asset('inner/scripts/loadingoverlay.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/jquery.toast.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/buttons.flash.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/jszip.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/pdfmake.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/vfs_fonts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/buttons.html5.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/buttons.print.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('inner/scripts/jquery.countdown.min.js') }}"></script>
+<script type="text/javascript">
+  $("#examwatch").countdown("{{$date->format('Y/m/d H:i:s')}}", function(event) {
+    $(this).text(
+      event.strftime('%H hr %M min %S')
+    );
+  }).on('finish.countdown', function() {
+        /* Refresh Page on Load */
+        finishExam();
+});;
+</script>
+<script>  
+        $(document).ready(function() {
+            $('.reportable').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            } );
+            $('.reportable2').DataTable();
+        } );
+        $(document).ready(function(){
+            getNext = function(){
+                $.LoadingOverlay("show");
+                var choice = $("input[name='choice']:checked").val();
+                if( choice === undefined )
+                {
+                    showToastDanger('Kindly choose at least one answer');
+                    $.LoadingOverlay("hide");
+                    return;
+                }
+                var this_exam = $("#examid").val();
+                var this_question = $("#questionid").val();
+                var score = $("#scoreid").val();
+                var data = "choice=" + choice + "&exam=" + this_exam + "&question=" + this_question + "&mark=" + score;
+                $.ajax({
+                    type:"post",
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url:"{{route('ep_next')}}",
+                    data: data,
+                    success: function(res){
+                        console.log(res.data);
+                        $.LoadingOverlay('hide');
+                        $('#question').html(res.data);
+                        return;
+                    },
+                    error: function(xhr, status, err ){
+                        console.log(xhr.responseJSON.message);
+                        showToastDanger(xhr.responseJSON.message);
+                        $.LoadingOverlay('hide');
+                        return
+                    }
+                });
+            }
+            getPrev = function(){
+                $.LoadingOverlay("show");
+                var choice = $("input[name='choice']:checked").val();
+                if( choice === undefined )
+                {
+                    showToastDanger('Kindly choose at least one answer');
+                    $.LoadingOverlay("hide");
+                    return;
+                }
+                var this_exam = $("#examid").val();
+                var this_question = $("#questionid").val();
+                var score = $("#scoreid").val();
+                var data = "choice=" + choice + "&exam=" + this_exam + "&question=" + this_question + "&mark=" + score;
+                $.ajax({
+                    type:"post",
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url:"{{route('ep_prev')}}",
+                    data: data,
+                    success: function(res){
+                        console.log(res.data);
+                        $.LoadingOverlay('hide');
+                        $('#question').html(res.data);
+                        return;
+                    },
+                    error: function(xhr, status, err ){
+                        console.log(xhr.responseJSON.message);
+                        showToastDanger(xhr.responseJSON.message);
+                        $.LoadingOverlay('hide');
+                        return
+                    }
+                });
+            }
+            finishExam = function(){
+                $.LoadingOverlay("show");
+                var this_exam = $("#examid").val();
+                var data = "exam=" + this_exam;
+                $.ajax({
+                    type:"post",
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url:"{{route('ep_finish')}}",
+                    data: data,
+                    success: function(res){
+                        console.log(res.data);
+                        $.LoadingOverlay('hide');
+                        window.location.href = res.goto;
+                        return;
+                    },
+                    error: function(xhr, status, err ){
+                        console.log(xhr.responseJSON.message);
+                        showToastDanger(xhr.responseJSON.message);
+                        $.LoadingOverlay('hide');
+                        return
+                    }
+                });
+            }
+        });
+        
+        const showToast = function(text){
+            $.toast({
+                heading: 'Sucess',
+                text: text,
+                icon: 'info',
+                bgColor: '#4267b4',
+                textColor: 'white',
+                loader: false,
+                position: 'top-right',
+                hideAfter: 8000        
+            });
+        }
+        const showToastDanger = function(text){
+            $.toast({
+                heading: 'Error',
+                text: text,
+                icon: 'error',
+                bgColor: '#FF0000',
+                textColor: 'white',
+                loader: false,
+                position: 'top-right',
+                hideAfter: 8000        
+            });
+        }
+    </script>
+    @endsection

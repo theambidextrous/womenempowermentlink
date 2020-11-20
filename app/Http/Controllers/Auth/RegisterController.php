@@ -103,7 +103,7 @@ class RegisterController extends Controller
             'is_active' => true,
             'password' => Hash::make($data['password']),
         ]);
-        // Mail::to($data['email'])->send(new NewSignUp($data));
+        Mail::to($data['email'])->send(new NewSignUp($data));
         return $user_create;
     }
     protected function trans_no()

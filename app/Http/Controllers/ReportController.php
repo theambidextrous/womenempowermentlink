@@ -147,7 +147,7 @@ class ReportController extends Controller
     }
     protected function all_forum()
     {
-        $c_ = Forum::where('is_deleted', false)->get();
+        $c_ = Forum::where('is_deleted', false)->orderBy('created_at', 'desc')->get();
         if(is_null($c_))
         {
             return [];

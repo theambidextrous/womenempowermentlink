@@ -7,7 +7,7 @@
 
 
 @section('sidenav')
-    @include('commons/sidenav_tutor')
+    @include('commons/sidenav_learner')
 @endsection
 
 

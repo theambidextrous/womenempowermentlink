@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -48,8 +49,23 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated Request.'], 401);
+        }
+        return redirect()->guest(route('login'));
+    }
     public function render($request, Throwable $exception)
     {
+        // if( $exception instanceof ErrorException )
+        // {
+            // return response(['what-happened' => 'Module under construction']);
+        // }
+        // return redirect()->route('login')->with([
+        //     'status' => 201,
+        //     'message' => "invalid access.. try again or reach out to administrator"
+        // ]);
         return parent::render($request, $exception);
     }
 }

@@ -90,6 +90,10 @@ Route::get('/wel/tutor/home', 'TutorController@index')->name('t_home');
 Route::get('/wel/tutor/home/profile', 'TutorController@t_profile')->name('t_profile');
 Route::post('/wel/tutor/home/profile/update', 'TutorController@t_profile_update')->name('t_profile_update');
 Route::post('/wel/tutor/home/pwd/change', 'TutorController@t_pwd_change')->name('t_pwd_change');
+//forum
+Route::get('/wel/tutor/home/forum', 'TutorController@t_forum')->name('t_forum');
+Route::post('/wel/tutor/home/forum/add', 'TutorController@t_add_forum')->name('t_add_forum');
+Route::post('/wel/tutor/home/forum/reply/add', 'TutorController@t_add_freply')->name('t_add_freply');
 //lesson
 Route::get('/wel/tutor/home/lessons/{unit}', 'TutorController@t_lessonhome')->name('t_lessonhome');
 Route::post('/wel/tutor/home/lesson/new', 'TutorController@t_addlesson')->name('t_addlesson');
@@ -124,4 +128,22 @@ Route::get('/wel/learner/home/assign/{unit}', 'LearnerController@s_assignhome')-
 Route::put('/wel/learner/home/assign/upload', 'LearnerController@s_assignsubmit')->name('s_assignsubmit');
 //exams
 Route::get('/wel/learner/home/examinables/{unit}', 'LearnerController@s_examhome')->name('s_examhome');
+Route::post('/wel/learner/home/exam/attempt/now', 'LearnerController@s_exama_anow')->name('s_exama_anow');
 Route::get('/wel/learner/home/exam/{exam}/unit/{unit}', 'LearnerController@s_examattempt')->name('s_examattempt');
+/** survey attempt  */
+Route::post('/wel/learner/home/survey/attempt/now', 'LearnerController@s_survey_anow')->name('s_survey_anow');
+Route::get('/wel/learner/home/survey/{exam}/unit/{unit}', 'LearnerController@s_surveyattempt')->name('s_surveyattempt');
+/** exam progress routes */
+Route::post('/wel/learner/home/exam/progress/nxt', 'LearnerController@ep_next')->name('ep_next');
+Route::post('/wel/learner/home/exam/progress/prev', 'LearnerController@ep_prev')->name('ep_prev');
+Route::post('/wel/learner/home/exam/progress/fn', 'LearnerController@ep_finish')->name('ep_finish');
+/** survey progress routes */
+Route::post('/wel/learner/home/survey/progress/nxt', 'LearnerController@sp_next')->name('sp_next');
+Route::post('/wel/learner/home/survey/progress/prev', 'LearnerController@sp_prev')->name('sp_prev');
+Route::post('/wel/learner/home/survey/progress/fn', 'LearnerController@sp_finish')->name('sp_finish');
+/** grades */
+Route::get('/wel/learner/home/grades/{unit}', 'LearnerController@s_gradesome')->name('s_gradesome');
+/** forums */
+Route::get('/wel/learner/home/forum', 'LearnerController@s_forum')->name('s_forum');
+Route::post('/wel/learner/home/forum/add', 'LearnerController@s_add_forum')->name('s_add_forum');
+Route::post('/wel/learner/home/forum/reply/add', 'LearnerController@s_add_freply')->name('s_add_freply');

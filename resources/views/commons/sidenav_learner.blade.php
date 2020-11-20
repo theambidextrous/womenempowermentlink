@@ -34,11 +34,11 @@
                 <li class="app-sidebar__heading"><br></li>
                 <li class="app-sidebar__heading"></li>
                 <li class="app-sidebar__heading">Learner Dashboard</li>
-                <!-- <li>
-                    <a href="#"><i class="metismenu-icon pe-7s-home"></i>Home</a>
-                </li> -->
                 <li>
                     <a href="{{route('s_home')}}"><i class="metismenu-icon pe-7s-home"></i>Home</a>
+                </li>
+                <li>
+                    <a href="{{route('s_forum')}}"><i class="metismenu-icon pe-7s-chat"></i>Forums</a>
                 </li>
                 <li>
                     <a href="{{route('s_profile')}}"><i class="metismenu-icon pe-7s-users"></i>Profile</a>

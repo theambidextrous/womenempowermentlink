@@ -139,6 +139,7 @@
                 @endif
                 <!-- recents -->
                 <div class="table-responsive">
+                <!-- {{print_r($units)}} -->
                     <table class="mb-0 table table-sm">
                         <thead>
                             <tr>
@@ -150,7 +151,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(count($units))
+                            @if(!is_null($units))
                                 @foreach( $units as $_unit )
                                 <tr>
                                     <td><a href="{{route('a_unithome',['id' => $_unit['id']])}}" class="mb-2 mr-2 btn-transition btn btn-link-primary">{{$_unit['name']}}</a></td>

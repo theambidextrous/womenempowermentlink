@@ -134,7 +134,13 @@ class AdminController extends Controller
         }
         $input = $req->all();
         $input['name'] = strtoupper($input['name']);
-        Unit::create($input);
+        if( Unit::create($input) )
+        {
+            return redirect()->route('a_coursehome', $cid)->with([
+                'status' => 200,
+                'message' => "Unit created Successfully"
+            ]);
+        }
         return redirect()->route('a_coursehome', $cid)->with([
             'status' => 200,
             'message' => "Unit created Successfully"
@@ -448,12 +454,20 @@ class AdminController extends Controller
         {
             return redirect()->route('a_unithome', $unitid)->with([
                 'status' => 201,
-                'message' => "upload a valid content file e.g. pdf, mp4, avi, mkv, 3gp"
+                'message' => "File field is required. Upload pdf or video not more than 20mb"
             ]);
         }
         $input = $req->all();
         $content = $req->file('content');
-        $content_name = $file_uuid . $content->getClientOriginalName();
+        $extension = $content->getClientOriginalExtension();
+        $content_name = $file_uuid . '.' . $extension;
+        if ( !$this->validLesson($extension) )
+        {
+            return redirect()->route('a_unithome', $unitid)->with([
+                'status' => 201,
+                'message' => "only pdf, mp4, avi, mkv & 3gp files allowed"
+            ]);
+        }
         Storage::disk('local')->putFileAs('cls/trt/content', $content, $content_name);
         $input['content'] = $content_name;
         $input['live_link'] = 'not_applicable';
@@ -1270,6 +1284,14 @@ class AdminController extends Controller
             return [];
         }
         return $c_->toArray();
+    }
+    protected function validLesson($ext)
+    {
+        if( in_array($ext, ['pdf', 'mp4', 'avi', 'mkv', '3gp', 'mov']) )
+        {
+            return true;
+        }
+        return false;
     }
     protected function dashboard_counters()
     {

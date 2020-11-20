@@ -114,7 +114,7 @@
                                             <td><a href="{{route('s_lessonhome', ['unit' => $_unit['id'] ])}}" class="mb-2 mr-2 btn-transition btn btn-primary">Open Lessons</a></td>
                                             <td><a href="{{route('s_assignhome', ['unit' => $_unit['id'] ])}}" class="mb-2 mr-2 btn-transition btn btn-info">Open Assignments</a></td>
                                             <td><a href="{{route('s_examhome', ['unit' => $_unit['id'] ])}}" class="mb-2 mr-2 btn-transition btn btn-warning">Open Exams, Quizes & Surveys</a></td>
-                                            <td><a href="#" class="mb-2 mr-2 btn-transition btn btn-success">Open Grades</a></td>
+                                            <td><a href="{{route('s_gradesome', ['unit' => $_unit['id'] ])}}" class="mb-2 mr-2 btn-transition btn btn-success">Open Grades</a></td>
                                         </tr>
                                         @endforeach
                                         @endif
