@@ -37,7 +37,7 @@ class ActivateNotification extends Notification
         return ExpoMessage::create()
         ->badge(1)
         ->enableSound()
-        ->channelID($notifiable->channel)
+        ->setChannelId($notifiable->channel)
         ->title($notifiable->title)
         ->body($notifiable->message)
         ->ttl(60)
