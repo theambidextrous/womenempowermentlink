@@ -39,11 +39,12 @@ class ApiController extends Controller
     public function test_push()
     {
         try{
-            $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, Auth::user()->id . '-WELstudent');
-            return response([
-                'status' => 200,
-                'message' => "push test",
-            ], 200);
+            $notifiable_res = $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, Auth::user()->id . '-WELstudent');
+            return $notifiable_res;
+            // return response([
+            //     'status' => 200,
+            //     'message' => "push test",
+            // ], 200);
         }catch( Exception $e )
         {
             return response([
@@ -55,6 +56,7 @@ class ApiController extends Controller
     public function push_notify($msg, $userid, $channel)
     {
         try{
+            // $notifiable_res = null;
             $user = User::find($userid);
             if(!is_null($user) && !is_null($user->device_token))
             {
@@ -105,13 +107,14 @@ class ApiController extends Controller
         }
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
         $user = Auth::user();
-        $this->test_push();
+        $notifiable_res = $this->test_push();
         if( !Auth::user()->is_student )
         {
             return response([
                 'status' => 201,
                 'message' => "Invalid Account. Access allowed for learners only",
                 'errors' => [],
+                'notifiable' => $notifiable_res,
             ], 403);
         }
         $user['token'] = $accessToken;
