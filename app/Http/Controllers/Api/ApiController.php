@@ -114,7 +114,6 @@ class ApiController extends Controller
                 'status' => 201,
                 'message' => "Invalid Account. Access allowed for learners only",
                 'errors' => [],
-                'notifiable' => $notifiable_res,
             ], 403);
         }
         $user['token'] = $accessToken;
@@ -122,6 +121,7 @@ class ApiController extends Controller
             'status' => 200,
             'message' => 'Success. logged in',
             'payload' => $user,
+            'notifiable' => $notifiable_res,
         ], 200);
     }
     public function signup(Request $request)
