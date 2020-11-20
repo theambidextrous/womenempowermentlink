@@ -36,7 +36,23 @@ use App\Notifications\ActivateNotification;
 
 class ApiController extends Controller
 {
-    public function test_push()
+    public function test_push($message)
+    {
+        try{
+            $notifiable_res = $this->push_notify($message, Auth::user()->id, 'womensempowermentlink');
+            return response([
+                'status' => 200,
+                'message' => "push test",
+            ], 200);
+        }catch( Exception $e )
+        {
+            return response([
+                'status' => 211,
+                'message' => $e->getMessage(),
+            ], 403);
+        }
+    }
+    public function send_push_ntf()
     {
         try{
             $notifiable_res = $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, 'womensempowermentlink');
@@ -107,7 +123,7 @@ class ApiController extends Controller
         }
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
         $user = Auth::user();
-        $notifiable_res = $this->test_push();
+        $notifiable_res = $this->send_push_ntf();
         if( !Auth::user()->is_student )
         {
             return response([
