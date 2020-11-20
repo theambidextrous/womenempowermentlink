@@ -107,7 +107,7 @@ class ApiController extends Controller
             }
             throw new \Exception('Notification error. User information not set.');
         }catch( \Exception $e ){
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
     }
     public function stream($file)
