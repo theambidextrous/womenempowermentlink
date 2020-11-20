@@ -18,9 +18,9 @@
 
       <div class="col-lg-4"></div>
 
-      <div class="col-lg-4" style="background: #f7f2f2;padding: 21px;border-radius:8px;">
+      <div class="col-lg-4" style="background: #fff;padding: 21px;border-radius:8px;">
         <div class="section-title">
-        <h2>Verify your email address</h2>
+        <h2>Verify email </h2>
         </div>
         @if (session('resent'))
             <div class="alert alert-success" role="alert">

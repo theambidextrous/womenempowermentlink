@@ -53,8 +53,8 @@
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li><a href="{{route('welcome')}}">Home</a></li>
-          <li><a href="{{route('welcome')}}">About eLearning</a></li>
+          <!-- <li><a href="{{route('welcome')}}">Home</a></li> -->
+          <!-- <li><a href="{{route('welcome')}}">About eLearning</a></li> -->
           <li class="get-started_l"><a href="{{route('login')}}">Login</a></li>
           <li class="get-started"><a href="{{route('register')}}">Enroll Now</a></li>
         </ul>
@@ -77,29 +77,29 @@
           <div class="col-lg-3 col-md-6 footer-contact" data-aos="fade-up">
             <h3>{{ config('app.name') }}</h3>
             <p>
-              207, Nairobi Groove <br>
-              Nairobi<br>
-              Republic of Kenya <br><br>
-              <strong>Phone:</strong> +254(0)722000000<br>
-              <strong>Email:</strong> info@wel-elearning.com<br>
+            Plot 2/388 Kirichwa Gardens<br>
+            Elgeyo Marakwet Rd, Kilimani<br>
+            P.O. Box 22574 – 00100 Nairobi,Kenya<br>
+            Phone:+254 711 907 132 | +245 732 574 060<br>
+            Email:info@wel.or.ke
             </p>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="100">
             <h4>Navigation</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Contact</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke">Women's Empowerment Link</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke/">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke/contact/">Contact</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="200">
             <h4>Quick Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Blog</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke/blog/">Blog</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke/blog/terms-of-service">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://wel.or.ke/blog/privacy-policy">Privacy policy</a></li>
             </ul>
           </div>
 
@@ -107,9 +107,9 @@
             <h4>Connect with us</h4>
             <p>Get with WEL via facebook, twitter and instagram.</p>
             <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="https://twitter.com/WEL2030" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="https://www.facebook.com/Womens-Empowerment-Link-The-Official-WEL-Page-232964263436207/" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="https://www.youtube.com/channel/UCwQHpR92Omusvj-ztpoBA9w?view_as=subscriber" class="instagram"><i class="bx bxl-youtube"></i></a>
             </div>
           </div>
 

@@ -62,10 +62,10 @@ class Handler extends ExceptionHandler
         // {
             // return response(['what-happened' => 'Module under construction']);
         // }
-        // return redirect()->route('login')->with([
-        //     'status' => 201,
-        //     'message' => "invalid access.. try again or reach out to administrator"
-        // ]);
+        return response([
+            'status' => 404,
+            'message' => "You are trying to access a service that is not available. Please contact Administrators or technical support"
+        ]);
         return parent::render($request, $exception);
     }
 }

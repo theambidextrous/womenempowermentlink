@@ -37,11 +37,19 @@ class ApiController extends Controller
 {
     public function test_push()
     {
-        $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, Auth::user()->id . '-WELstudent');
-        return response([
-            'status' => 200,
-            'message' => "push test",
-        ], 200);
+        try{
+            $this->push_notify('Login success. Welcome to WEL', Auth::user()->id, Auth::user()->id . '-WELstudent');
+            return response([
+                'status' => 200,
+                'message' => "push test",
+            ], 200);
+        }catch( Exception $e )
+        {
+            return response([
+                'status' => 211,
+                'message' => $e->getMessage(),
+            ], 403);
+        }
     }
     public function push_notify($msg, $userid, $channel)
     {
@@ -58,9 +66,9 @@ class ApiController extends Controller
                 $payload = json_decode(json_encode($payload));
                 return $user->notify(new ActivateNotification($payload));
             }
-            return;
-        }catch(Exception $e ){
-            return $e->getMessage();
+            throw new \Exception('Notification error. User information not set.');
+        }catch( \Exception $e ){
+            throw new \Exception($e->getMessage());
         }
     }
     public function stream($file)
@@ -95,6 +103,7 @@ class ApiController extends Controller
         }
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
         $user = Auth::user();
+        $this->test_push();
         if( !Auth::user()->is_student )
         {
             return response([
@@ -179,7 +188,10 @@ class ApiController extends Controller
     }
     public function d_token($pushToken)
     {
-        User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
+        if(!strlen(Auth::user()->device_token))
+        {
+            User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
+        }
         return response([
             'status' => 200,
             'message' => "device token updated",

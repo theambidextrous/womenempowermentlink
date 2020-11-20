@@ -18,7 +18,7 @@
 
       <div class="col-lg-3"></div>
 
-      <div class="col-lg-6" style="background: #f7f2f2;padding: 21px;border-radius:8px;">
+      <div class="col-lg-6" style="background: #fff;padding: 21px;border-radius:8px;">
         <div class="section-title">
         <h2>Register</h2>
         </div>

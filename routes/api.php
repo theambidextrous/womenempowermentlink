@@ -33,6 +33,7 @@ Route::prefix('/users')->group( function() {
 });
 Route::prefix('/account')->group( function() {
     Route::middleware('auth:api')->group( function(){
+        Route::post('/test/push', 'Api\ApiController@test_push');
         Route::post('/update/profile', 'Api\ApiController@update_profile');
         Route::post('/update/device/{ptoken}', 'Api\ApiController@d_token');
         Route::post('/update/profile/pic', 'Api\ApiController@update_p_pic');
