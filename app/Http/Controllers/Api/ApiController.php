@@ -166,11 +166,13 @@ class ApiController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|email',
                 'phone' => 'required|string',
+                'gender' => 'required|string',
+                'special_needs' => 'required|string',
+                'county' => 'required|string',
+                'constituency' => 'required|string',
+                'ward' => 'required|string',
                 'password' => 'required|string',
                 'c_password' => 'required|same:password',
-                'county' => 'required|string',
-                'position' => 'required|string',
-                'gender' => 'required|string'
             ]);
             if( $validator->fails() ){
                 return response([
@@ -228,20 +230,26 @@ class ApiController extends Controller
     }
     public function d_token($pushToken)
     {
-        if(!strlen(Auth::user()->device_token))
-        {
-            User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
-            return response([
-                'status' => 200,
-                'message' => "device token updated",
-                'payload' => $pushToken,
-            ], 200);
-        }
+        // if(!strlen(Auth::user()->device_token))
+        // {
+        //     User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
+        //     return response([
+        //         'status' => 200,
+        //         'message' => "device token updated",
+        //         'payload' => $pushToken,
+        //     ], 200);
+        // }
+        User::find(Auth::user()->id)->update(['device_token' => $pushToken]);
         return response([
             'status' => 200,
-            'message' => "device token exist",
-            'payload' => Auth::user()->device_token,
-        ], 403);
+            'message' => "device token updated",
+            'payload' => $pushToken,
+        ], 200);
+        // return response([
+        //     'status' => 200,
+        //     'message' => "device token exist",
+        //     'payload' => Auth::user()->device_token,
+        // ], 403);
         
     }
     public function update_p_pic(Request $request)
@@ -283,10 +291,11 @@ class ApiController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|email',
                 'phone' => 'required|string',
-                'address' => 'string',
                 'gender' => 'required|string',
+                'special_needs' => 'required|string',
                 'county' => 'required|string',
-                'position' => 'required|string',
+                'constituency' => 'required|string',
+                'ward' => 'required|string',
             ]);
             if( $validator->fails() ){
                 return response([

@@ -22,7 +22,7 @@
 }
 .modal-header, .modal-footer {
     background: #fff!important;
-    color: #4267b4;
+    color: #ed1d29;
 }
 .modal-header {
     border-bottom: 1px solid #e9ecef!important;
@@ -47,8 +47,8 @@
     color: #ffffff;
     text-align: center;
     white-space: nowrap;
-    background-color: #4267b4;
-    border: 1px solid #4267b4;
+    background-color: #ed1d29;
+    border: 1px solid #ed1d29;
     border-radius: .25rem;
 }
 .form-control[readonly] {
@@ -301,7 +301,7 @@ input[type=number] {
             heading: 'Sucess',
             text: text,
             icon: 'info',
-            bgColor: '#4267b4',
+            bgColor: '#ed1d29',
             textColor: 'white',
             loader: false,
             position: 'top-right',

@@ -31,7 +31,7 @@
       max-height: 80px;
     }
     .nav-menu .get-started_l a {
-      background: #ff5167;
+      background: #f1771c;
       color: #fff;
       border-radius: 50px;
       margin: 0 15px;

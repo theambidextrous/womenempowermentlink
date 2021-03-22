@@ -14,10 +14,10 @@
 @section('content')
 <style>
 .modal-header, .modal-footer {
-    background: #4267b4!important;
+    background: #ed1d29!important;
 }
 .modal-header {
-    border-bottom: 1px solid #4267b4!important;
+    border-bottom: 1px solid #ed1d29!important;
 }
 .input-group-text-custom {
     display: flex;
@@ -30,8 +30,8 @@
     color: #ffffff;
     text-align: center;
     white-space: nowrap;
-    background-color: #4267b4;
-    border: 1px solid #4267b4;
+    background-color: #ed1d29;
+    border: 1px solid #ed1d29;
     border-radius: .25rem;
 }
 .form-control {
@@ -40,7 +40,7 @@
     border-radius: .2rem;
 }
 .course{
-    background: #4267b4;
+    background: #ed1d29;
     padding:15px!important;
     color: white;
 }
@@ -122,6 +122,58 @@
                                     <label class="lab">Phone Number</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="phone" id="phone" value="{{strtolower($learner['phone'])}}" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">Gender</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="gender" id="gender" value="{{strtolower($learner['gender'])}}" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">Special Needs</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="special_needs" id="special_needs" value="{{strtolower($learner['special_needs'])}}" aria-describedby="inputGroupPrepend">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">County</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="county" id="county" value="{{strtolower($learner['county'])}}" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">Constituency</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="constituency" id="constituency" value="{{strtolower($learner['constituency'])}}" aria-describedby="inputGroupPrepend" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">Ward</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="ward" id="ward" value="{{strtolower($learner['ward'])}}" aria-describedby="inputGroupPrepend">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label class="lab">Date Enrolled</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="created_at" id="created_at" value="{{date('m/d/Y', strtotime($learner['created_at']))}}" aria-describedby="inputGroupPrepend" readonly>
                                     </div>
                                 </div>
                             </div>

@@ -75,8 +75,10 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:13', 'unique:users'],
             'gender' => ['required', 'string', 'max:6', 'not_in:nn'],
-            'position' => ['required', 'string'],
+            'special_needs' => ['required', 'string', 'not_in:nn'],
             'county' => ['required', 'string'],
+            'constituency' => ['required', 'string'],
+            'ward' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -95,14 +97,23 @@ class RegisterController extends Controller
         if( User::where('phone', $data['phone'])->count() > 0 ){
             return view('auth.register')->with(['error' => 'phone already in use.']);
         }
-        
+        if($data['gender'] == 'other')
+        {
+            $data['gender'] = 'Other - ' . $data['gender_other'];
+        }
+        if($data['special_needs'] == 'other')
+        {
+            $data['special_needs'] = 'Other - ' . $data['special_other'];
+        }
         $user_create = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'gender' => $data['gender'],
-            'position' => $data['position'],
+            'special_needs' => $data['special_needs'],
             'county' => $data['county'],
+            'constituency' => $data['constituency'],
+            'ward' => $data['ward'],
             'is_admin' => false,
             'is_teacher' => false,
             'is_student' => true,

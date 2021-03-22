@@ -146,7 +146,7 @@
                 heading: 'Sucess',
                 text: text,
                 icon: 'info',
-                bgColor: '#4267b4',
+                bgColor: '#ed1d29',
                 textColor: 'white',
                 loader: false,
                 position: 'top-right',

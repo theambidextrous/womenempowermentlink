@@ -18,10 +18,10 @@
 @section('content')
 <style>
 .modal-header, .modal-footer {
-    background: #4267b4!important;
+    background: #ed1d29!important;
 }
 .modal-header {
-    border-bottom: 1px solid #4267b4!important;
+    border-bottom: 1px solid #ed1d29!important;
 }
 .input-group-text-custom {
     display: flex;
@@ -34,8 +34,8 @@
     color: #ffffff;
     text-align: center;
     white-space: nowrap;
-    background-color: #4267b4;
-    border: 1px solid #4267b4;
+    background-color: #ed1d29;
+    border: 1px solid #ed1d29;
     border-radius: .25rem;
 }
 .form-control {
